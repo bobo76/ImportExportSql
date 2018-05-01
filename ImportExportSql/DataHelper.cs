@@ -45,12 +45,32 @@ namespace ImportExportSql
         }
         public static SqlCommand BuildCommand(Table tableInfo, List<Row> rowList)
         {
-            var cmd = new SqlCommand();
-            rowList[0].Cells.ToList().ForEach(c => cmd.Parameters.Add(c.CellColumn.Type.CreateParemeter("@" + c.CellColumn.Name)));
+            if (rowList == null || rowList.Count == 0)
+                return null;
+
             string sqlInsert = "", sqlParams = "";
-            //rowList[0].Cells.ToList().Aggregate(c => sqlInsert += c.CellColumn.Name += ",");
+            var fieldsList = rowList[0].Cells.Select(t => t.CellColumn.Name).Aggregate((x, y) => x + "," + y);
+            var paramList = rowList[0].Cells.Select(t => "@" + t.CellColumn.Name).Aggregate((x, y) => x + "," + y);
+            sqlInsert = $"INSERT INTO {tableInfo.TableName} ({fieldsList}) ";
+            sqlParams = $"VALUES ({paramList})";
+
+            var cmd = new SqlCommand(sqlInsert + sqlParams);
+            rowList[0].Cells.ToList().ForEach(c => cmd.Parameters.Add(c.CellColumn.Type.CreateParemeter("@" + c.CellColumn.Name)));
 
             return cmd;
+        }
+        public static void UpdateTable(Table tableInfo, List<Row> rowList, SqlCommand cmd, string connectionString)
+        {
+            using (var con = new SqlConnection(connectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                for (var i = 0; i < rowList.Count; i++)
+                {
+                    rowList[i].Cells.ToList().ForEach(c => cmd.Parameters["@" + c.CellColumn.Name].Value = c.Value);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

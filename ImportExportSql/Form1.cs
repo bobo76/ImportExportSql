@@ -94,7 +94,9 @@ namespace ImportExportSql
         {
             var tableInfo = DataHelper.GetTableInfo(TxtTable.Text, TxtConnection.Text);
             var rowList = ReadDataFromFile(tableInfo, TxtPath.Text + "Document_2018-04-29_11-46.txt");
-
+            tableInfo.TableName = "Document_test";
+            var cmd = DataHelper.BuildCommand(tableInfo, rowList);
+            DataHelper.UpdateTable(tableInfo, rowList, cmd, TxtConnection.Text);
         }
 
         private List<Row> ReadDataFromFile(Table productInfo, string fileName)
