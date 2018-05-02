@@ -16,21 +16,21 @@ namespace ImportExportSql
 
             var dataList = new List<IDataType>
             {
-                new ColumnTypeInt(),
-                new ColumnTypeNVarchar(),
-                new ColumnTypeVarchar(),
                 new ColumnTypeBit(),
-                new ColumnTypeSmallint(),
-                new ColumnTypeTinyint(),
+                new ColumnTypeDate(),
+                new ColumnTypeDateTime(),
+                new ColumnTypeDecimal(),
+                new ColumnTypeHierarchyId(),
+                new ColumnTypeInt(),
                 new ColumnTypeMoney(),
                 new ColumnTypeNChar(),
-                new ColumnTypeDateTime(),
-                new ColumnTypeDate(),
+                new ColumnTypeNVarchar(),
+                new ColumnTypeSmallint(),
                 new ColumnTypeTime(),
+                new ColumnTypeTinyint(),
                 new ColumnTypeUniqueidentifier(),
                 new ColumnTypeVarbinary(),
-                new ColumnTypeHierarchyId(),
-                new ColumnTypeDecimal(),
+                new ColumnTypeVarchar(),
                 new ColumnTypeXml()
             };
             DataTypeFactory.AddDataType(dataList.ToArray());
