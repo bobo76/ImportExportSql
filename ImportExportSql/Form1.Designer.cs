@@ -93,7 +93,7 @@
             this.TxtTable.Name = "TxtTable";
             this.TxtTable.Size = new System.Drawing.Size(245, 26);
             this.TxtTable.TabIndex = 6;
-            this.TxtTable.Text = "Document";
+            this.TxtTable.Text = "Customer";
             // 
             // label3
             // 

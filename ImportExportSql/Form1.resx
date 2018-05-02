@@ -118,24 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TxtQuery.Text" xml:space="preserve">
-    <value>SELECT TOP (1000) [ProductID]
-      ,[Name]
-      ,[ProductNumber]
-      ,[MakeFlag]
-      ,[Color]
-      ,[SafetyStockLevel]
-      ,[ReorderPoint]
-      ,[StandardCost]
-      ,[ListPrice]
-      ,[DaysToManufacture]
-      ,[ProductLine]
-      ,[Class]
-      ,[Style]
-      ,[ProductSubcategoryID]
-      ,[ProductModelID]
-      ,[SellStartDate]
-      ,[SellEndDate]
+    <value>SELECT TOP (1000) [CustomerID]
+      ,[PersonID]
+      ,[StoreID]
+      ,[TerritoryID]
+      ,[AccountNumber]
+      ,[rowguid]
       ,[ModifiedDate]
-  FROM Production.[Product]</value>
+  FROM [AdventureWorks2017].[Sales].[Customer]</value>
   </data>
 </root>

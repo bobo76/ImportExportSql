@@ -7,9 +7,6 @@ namespace ImportExportSql
     {
         public bool AllowNull { get; set; }
 
-        public ColumnTypeBase()
-        { }
-
         public object ReadValue(SqlDataReader dr, int ix)
         {
             if (dr.IsDBNull(ix))
@@ -41,11 +38,11 @@ namespace ImportExportSql
     
     public class ColumnTypeNVarchar : ColumnTypeBase, IDataType
     {
-        public string DataTypeName { get; } = "nvarchar";
+        public virtual string DataTypeName { get; } = "nvarchar";
         public ColumnTypeNVarchar()
         {
         }
-        public IDataType CreateInstance()
+        public virtual IDataType CreateInstance()
         {
             return new ColumnTypeNVarchar();
         }
@@ -64,12 +61,18 @@ namespace ImportExportSql
         }
     }
 
+    public class ColumnTypeVarchar : ColumnTypeNVarchar
+    {
+        public override string DataTypeName { get; } = "varchar";
+        public override IDataType CreateInstance()
+        {
+            return new ColumnTypeVarchar();
+        }
+    }
+
     public class ColumnTypeNChar : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "nchar";
-        public ColumnTypeNChar()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeNChar();
@@ -92,9 +95,6 @@ namespace ImportExportSql
     public class ColumnTypeBit : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "bit";
-        public ColumnTypeBit()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeBit();
@@ -117,9 +117,6 @@ namespace ImportExportSql
     public class ColumnTypeInt : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "int";
-        public ColumnTypeInt()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeInt();
@@ -141,9 +138,6 @@ namespace ImportExportSql
     public class ColumnTypeSmallint : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "smallint";
-        public ColumnTypeSmallint()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeSmallint();
@@ -166,9 +160,6 @@ namespace ImportExportSql
     public class ColumnTypeTinyint : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "tinyint";
-        public ColumnTypeTinyint()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeTinyint();
@@ -191,9 +182,6 @@ namespace ImportExportSql
     public class ColumnTypeMoney : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "money";
-        public ColumnTypeMoney()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeMoney();
@@ -216,9 +204,6 @@ namespace ImportExportSql
     public class ColumnTypeDateTime : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "datetime";
-        public ColumnTypeDateTime()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeDateTime();
@@ -226,7 +211,8 @@ namespace ImportExportSql
 
         internal override object ReadValueObject(SqlDataReader dr, int ix)
         {
-            return dr.GetSqlDateTime(ix);
+            var dateTmp = dr.GetSqlDateTime(ix);
+            return (DateTime)dateTmp;
         }
         public SqlParameter CreateParemeter(string parameterName)
         {
@@ -236,7 +222,67 @@ namespace ImportExportSql
         {
             if (value == DBNull.Value || value == null)
                 return "";
-            return ((System.Data.SqlTypes.SqlDateTime)value).Value.ToString("yyyy-MM-dd hh:mm:ss.FFF");
+            return ((DateTime)value).ToString("yyyy-MM-dd hh:mm:ss.FFFtt");
+        }
+        internal override object ReadValueObject(string value)
+        {
+            return DateTime.Parse(value);
+        }
+    }
+
+    public class ColumnTypeDate : ColumnTypeBase, IDataType
+    {
+        public string DataTypeName { get; } = "date";
+        public IDataType CreateInstance()
+        {
+            return new ColumnTypeDate();
+        }
+
+        internal override object ReadValueObject(SqlDataReader dr, int ix)
+        {
+            var dateTmp = dr.GetSqlDateTime(ix);
+            return (DateTime)dateTmp;
+        }
+        public SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.DateTime);
+        }
+        public override string ConvertToString(object value)
+        {
+            if (value == DBNull.Value || value == null)
+                return "";
+            var sqlDateTmp = (System.Data.SqlTypes.SqlDateTime)value;
+            return (sqlDateTmp).Value.ToString("yyyy-MM-dd");
+        }
+        internal override object ReadValueObject(string value)
+        {
+            return DateTime.Parse(value);
+        }
+    }
+
+    public class ColumnTypeTime : ColumnTypeBase, IDataType
+    {
+        public string DataTypeName { get; } = "time";
+        public IDataType CreateInstance()
+        {
+            return new ColumnTypeTime();
+        }
+
+        internal override object ReadValueObject(SqlDataReader dr, int ix)
+        {
+            var dateTmp = dr.GetSqlDateTime(ix);
+            return (DateTime)dateTmp;
+        }
+        public SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.Time);
+        }
+        public override string ConvertToString(object value)
+        {
+            if (value == DBNull.Value || value == null)
+                return "";
+            var sqlDateTmp = (System.Data.SqlTypes.SqlDateTime)value;
+            return (sqlDateTmp).Value.ToString("yyyy-MM-dd hh:mm:ss.FFFtt");
         }
         internal override object ReadValueObject(string value)
         {
@@ -247,9 +293,6 @@ namespace ImportExportSql
     public class ColumnTypeUniqueidentifier : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "uniqueidentifier";
-        public ColumnTypeUniqueidentifier()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeUniqueidentifier();
@@ -272,9 +315,6 @@ namespace ImportExportSql
     public class ColumnTypeDecimal : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "decimal";
-        public ColumnTypeDecimal()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeDecimal();
@@ -297,9 +337,6 @@ namespace ImportExportSql
     public class ColumnTypeVarbinary : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "varbinary";
-        public ColumnTypeVarbinary()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeVarbinary();
@@ -331,9 +368,6 @@ namespace ImportExportSql
     public class ColumnTypeHierarchyId : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "hierarchyid";
-        public ColumnTypeHierarchyId()
-        {
-        }
         public IDataType CreateInstance()
         {
             return new ColumnTypeHierarchyId();
@@ -350,6 +384,28 @@ namespace ImportExportSql
         internal override object ReadValueObject(string value)
         {
             //todo
+            return value;
+        }
+    }
+
+    public class ColumnTypeXml : ColumnTypeBase, IDataType
+    {
+        public string DataTypeName { get; } = "xml";
+        public IDataType CreateInstance()
+        {
+            return new ColumnTypeXml();
+        }
+
+        public SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.Xml);
+        }
+        internal override object ReadValueObject(SqlDataReader dr, int ix)
+        {
+            return dr.GetSqlXml(ix);
+        }
+        internal override object ReadValueObject(string value)
+        {
             return value;
         }
     }

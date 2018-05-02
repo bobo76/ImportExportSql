@@ -18,16 +18,20 @@ namespace ImportExportSql
             {
                 new ColumnTypeInt(),
                 new ColumnTypeNVarchar(),
+                new ColumnTypeVarchar(),
                 new ColumnTypeBit(),
                 new ColumnTypeSmallint(),
                 new ColumnTypeTinyint(),
                 new ColumnTypeMoney(),
                 new ColumnTypeNChar(),
                 new ColumnTypeDateTime(),
+                new ColumnTypeDate(),
+                new ColumnTypeTime(),
                 new ColumnTypeUniqueidentifier(),
                 new ColumnTypeVarbinary(),
                 new ColumnTypeHierarchyId(),
-                new ColumnTypeDecimal()
+                new ColumnTypeDecimal(),
+                new ColumnTypeXml()
             };
             DataTypeFactory.AddDataType(dataList.ToArray());
         }
@@ -93,7 +97,7 @@ namespace ImportExportSql
         private void CmdImport_Click(object sender, EventArgs e)
         {
             var tableInfo = DataHelper.GetTableInfo(TxtTable.Text, TxtConnection.Text);
-            var rowList = ReadDataFromFile(tableInfo, TxtPath.Text + "Document_2018-04-29_11-46.txt");
+            var rowList = ReadDataFromFile(tableInfo, TxtPath.Text + "Document_2018-05-01_05-10.txt");
             tableInfo.TableName = "Document_test";
             var cmd = DataHelper.BuildCommand(tableInfo, rowList);
             DataHelper.UpdateTable(tableInfo, rowList, cmd, TxtConnection.Text);
@@ -129,6 +133,7 @@ namespace ImportExportSql
                     }
                     var newRow = new Row{ Cells = cellList.ToArray() };
                     rowList.Add(newRow);
+                    cellList.Clear();
                 };
 
             };
