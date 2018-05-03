@@ -8,7 +8,7 @@
 
         public override string ToString()
         {
-            return Name;
+            return $"{Name} (" + (IsNullable ? "Nullable" : "Not nullable") + "))";
         }
     }
 }

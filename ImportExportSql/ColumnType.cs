@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 
 namespace ImportExportSql
 {
@@ -37,9 +38,7 @@ namespace ImportExportSql
     public class ColumnTypeNVarchar : ColumnTypeBase, IDataType
     {
         public virtual string DataTypeName { get; } = "nvarchar";
-        public ColumnTypeNVarchar()
-        {
-        }
+
         public virtual IDataType CreateInstance()
         {
             return new ColumnTypeNVarchar();
@@ -240,8 +239,6 @@ namespace ImportExportSql
         }
         public override string ConvertToString(object value)
         {
-            if (value == DBNull.Value || value == null)
-                return "";
             return ((DateTime)value).ToString("yyyy-MM-dd hh:mm:ss.FFFtt");
         }
         internal override object ReadValueObject(string value)
@@ -271,8 +268,6 @@ namespace ImportExportSql
         }
         public override string ConvertToString(object value)
         {
-            if (value == DBNull.Value || value == null)
-                return "";
             return ((DateTime)value).ToString("yyyy-MM-dd hh:mm:ss");
         }
         internal override object ReadValueObject(string value)
@@ -300,10 +295,7 @@ namespace ImportExportSql
         }
         public override string ConvertToString(object value)
         {
-            if (value == DBNull.Value || value == null)
-                return "";
-            var sqlDateTmp = (System.Data.SqlTypes.SqlDateTime)value;
-            return (sqlDateTmp).Value.ToString("yyyy-MM-dd");
+            return ((SqlDateTime)value).Value.ToString("yyyy-MM-dd");
         }
         internal override object ReadValueObject(string value)
         {
@@ -330,9 +322,8 @@ namespace ImportExportSql
         }
         public override string ConvertToString(object value)
         {
-            if (value == DBNull.Value || value == null)
-                return "";
-            var sqlDateTmp = (System.Data.SqlTypes.SqlDateTime)value;
+            //TODO
+            var sqlDateTmp = (SqlDateTime)value;
             return (sqlDateTmp).Value.ToString("yyyy-MM-dd hh:mm:ss.FFFtt");
         }
         internal override object ReadValueObject(string value)
@@ -406,8 +397,6 @@ namespace ImportExportSql
         }
         public override string ConvertToString(object value)
         {
-            if (value == DBNull.Value || value == null)
-                return "";
             return Convert.ToBase64String((byte[])value);
         }
         internal override object ReadValueObject(string value)
@@ -470,6 +459,7 @@ namespace ImportExportSql
         }
         internal override object ReadValueObject(string value)
         {
+            //TODO
             return value;
         }
     }
