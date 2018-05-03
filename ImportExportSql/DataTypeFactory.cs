@@ -18,7 +18,7 @@ namespace ImportExportSql
 
         public static IDataType GetDataType(string typeName)
         {
-            return DataTypeList.First(dt => dt.DataTypeName == typeName);
+            return DataTypeList.FirstOrDefault(dt => dt.DataTypeName == typeName);
         }
     }
 }

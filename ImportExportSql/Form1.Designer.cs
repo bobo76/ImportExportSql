@@ -45,6 +45,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtImportTableName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.cmdGetImportPath = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -116,7 +117,7 @@
             this.TxtImportPath.Location = new System.Drawing.Point(72, 8);
             this.TxtImportPath.Margin = new System.Windows.Forms.Padding(2);
             this.TxtImportPath.Name = "TxtImportPath";
-            this.TxtImportPath.Size = new System.Drawing.Size(487, 20);
+            this.TxtImportPath.Size = new System.Drawing.Size(455, 20);
             this.TxtImportPath.TabIndex = 9;
             this.TxtImportPath.Text = "c:\\temp\\NoteData_2018-05-02_02-44.txt";
             // 
@@ -187,6 +188,7 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.cmdGetImportPath);
             this.panel2.Controls.Add(this.txtImportTableName);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label4);
@@ -215,6 +217,17 @@
             this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "Table";
+            // 
+            // cmdGetImportPath
+            // 
+            this.cmdGetImportPath.Location = new System.Drawing.Point(531, 5);
+            this.cmdGetImportPath.Margin = new System.Windows.Forms.Padding(2);
+            this.cmdGetImportPath.Name = "cmdGetImportPath";
+            this.cmdGetImportPath.Size = new System.Drawing.Size(28, 23);
+            this.cmdGetImportPath.TabIndex = 12;
+            this.cmdGetImportPath.Text = "...";
+            this.cmdGetImportPath.UseVisualStyleBackColor = true;
+            this.cmdGetImportPath.Click += new System.EventHandler(this.CmdGetImportPath_Click);
             // 
             // Form1
             // 
@@ -256,6 +269,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox txtImportTableName;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button cmdGetImportPath;
     }
 }
 

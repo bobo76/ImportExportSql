@@ -126,6 +126,8 @@ namespace ImportExportSql
             if (tableInfo == null)
                 return;
             var rowList = ReadDataFromFile(tableInfo, TxtImportPath.Text);
+            if (rowList == null)
+                return;
 
             var cmd = DataHelper.BuildCommand(tableInfo, rowList);
             DataHelper.UpdateTable(tableInfo, rowList, cmd, TxtConnection.Text);
@@ -135,6 +137,7 @@ namespace ImportExportSql
         {
             var rowList = new List<Row>();
             var rowCellList = new List<Column>();
+            var notFoundCells = new List<string>();
 
             using (StreamReader SR = new StreamReader(fileName))
             {
@@ -144,13 +147,24 @@ namespace ImportExportSql
                     var fieldName = fieldsList[i];
                     var curCell = productInfo.Columns.FirstOrDefault(r => r.Name == fieldName);
                     if (curCell == null)
+                        notFoundCells.Add(fieldName);
+                    else
                     {
-                        MessageBox.Show($"fieldName : {fieldName}", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return null;
+                        curCell.DataIndex = i;
+                        rowCellList.Add(curCell);
                     }
-                    rowCellList.Add(curCell);
                 }
+
+                if (notFoundCells.Count > 0)
+                {
+                    var resp = MessageBox.Show("Can't find this cells : " + notFoundCells.Aggregate((x, y) => x + ", " + y) +
+                        Environment.NewLine + "Continue ? ", "Some fields are missing", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                    if (resp != DialogResult.Yes)
+                        return null;
+                }
+
                 string line;
+                object cellValue;
                 var cellList = new List<RowCell>();
                 while ((line = SR.ReadLine()) != null)
                 {
@@ -158,27 +172,30 @@ namespace ImportExportSql
 
                     for (var i = 0; i < rowCellList.Count; i++)
                     {
-                        var newCell = new RowCell();
-                        newCell.CellColumn = rowCellList[i];
                         try
                         {
-                            newCell.Value = rowCellList[i].Type.ReadValue(fieldsList[i], rowCellList[i].IsNullable);
+                            cellValue = rowCellList[i].Type.ReadValue(fieldsList[rowCellList[i].DataIndex], rowCellList[i].IsNullable);
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.ToString(), "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return null;
                         }
+                        var newCell = new RowCell { CellColumn = rowCellList[i], Value = cellValue };
                         cellList.Add(newCell);
                     }
-                    var newRow = new Row{ Cells = cellList.ToArray() };
+                    var newRow = new Row { Cells = cellList.ToArray() };
                     rowList.Add(newRow);
                     cellList.Clear();
                 };
-
             };
             return rowList;
         }
 
+        private void CmdGetImportPath_Click(object sender, EventArgs e)
+        {
+            var fdb = new FolderBrowserDialog();
+
+        }
     }
 }

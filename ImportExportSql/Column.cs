@@ -5,6 +5,7 @@
         public string Name { get; set; }
         public bool IsNullable { get; set; }
         public IDataType Type { get; set; }
+        public int DataIndex { get; set; }
 
         public override string ToString()
         {
