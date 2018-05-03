@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -18,6 +18,7 @@ namespace ImportExportSql
             {
                 new ColumnTypeBit(),
                 new ColumnTypeDate(),
+                new ColumnTypeSmallDateTime(),
                 new ColumnTypeDateTime(),
                 new ColumnTypeDecimal(),
                 new ColumnTypeHierarchyId(),
@@ -25,23 +26,41 @@ namespace ImportExportSql
                 new ColumnTypeMoney(),
                 new ColumnTypeNChar(),
                 new ColumnTypeNVarchar(),
+                new ColumnTypeReal(),
                 new ColumnTypeSmallint(),
                 new ColumnTypeTime(),
                 new ColumnTypeTinyint(),
                 new ColumnTypeUniqueidentifier(),
                 new ColumnTypeVarbinary(),
+                new ColumnTypeImage(),
                 new ColumnTypeVarchar(),
                 new ColumnTypeXml()
             };
             DataTypeFactory.AddDataType(dataList.ToArray());
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            TxtConnection.Text = ConfigurationManager.ConnectionStrings["PatientDev"].ConnectionString;
+        }
+
         private void CmdExport_Click(object sender, EventArgs e)
         {
-            var tableInfo = DataHelper.GetTableInfo(TxtTable.Text, TxtConnection.Text);
+            var tableName = TxtExportTableName.Text;
+            if (!DataHelper.VerifyIfTableExist(tableName, TxtConnection.Text))
+            {
+                MessageBox.Show($"The table {tableName} does'nt exist in this database", "Validate table", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var tableInfo = DataHelper.GetTableInfo(tableName, TxtConnection.Text);
+            if (tableInfo == null)
+            {
+                MessageBox.Show($"Something went wrong with table : {tableName}", "Export Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var rowList = ReadData(tableInfo, TxtQuery.Text, TxtConnection.Text);
-            WriteDataToFile(rowList, TxtPath.Text + TxtTable.Text + DateTime.Now.ToString("_yyyy-MM-dd_hh-mm") + ".txt");
+            WriteDataToFile(rowList, TxtExportPath.Text + tableInfo.TableName + DateTime.Now.ToString("_yyyy-MM-dd_hh-mm") + ".txt");
         }
 
         private List<Row> ReadData(Table productInfo, string query, string connectionString)
@@ -96,9 +115,18 @@ namespace ImportExportSql
 
         private void CmdImport_Click(object sender, EventArgs e)
         {
-            var tableInfo = DataHelper.GetTableInfo(TxtTable.Text, TxtConnection.Text);
-            var rowList = ReadDataFromFile(tableInfo, TxtPath.Text + "Document_2018-05-01_05-10.txt");
-            tableInfo.TableName = "Document_test";
+            var tableName = txtImportTableName.Text;
+            if (!DataHelper.VerifyIfTableExist(tableName, TxtConnection.Text))
+            {
+                MessageBox.Show($"The table {tableName} does'nt exist in this database", "Validate table", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var tableInfo = DataHelper.GetTableInfo(tableName, TxtConnection.Text);
+            if (tableInfo == null)
+                return;
+            var rowList = ReadDataFromFile(tableInfo, TxtImportPath.Text);
+
             var cmd = DataHelper.BuildCommand(tableInfo, rowList);
             DataHelper.UpdateTable(tableInfo, rowList, cmd, TxtConnection.Text);
         }
@@ -115,6 +143,11 @@ namespace ImportExportSql
                 {
                     var fieldName = fieldsList[i];
                     var curCell = productInfo.Columns.FirstOrDefault(r => r.Name == fieldName);
+                    if (curCell == null)
+                    {
+                        MessageBox.Show($"fieldName : {fieldName}", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return null;
+                    }
                     rowCellList.Add(curCell);
                 }
                 string line;
@@ -125,11 +158,18 @@ namespace ImportExportSql
 
                     for (var i = 0; i < rowCellList.Count; i++)
                     {
-                        cellList.Add(new RowCell
+                        var newCell = new RowCell();
+                        newCell.CellColumn = rowCellList[i];
+                        try
                         {
-                            CellColumn = rowCellList[i],
-                            Value = rowCellList[i].Type.ReadValue(fieldsList[i])
-                        });
+                            newCell.Value = rowCellList[i].Type.ReadValue(fieldsList[i], rowCellList[i].IsNullable);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString(), "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return null;
+                        }
+                        cellList.Add(newCell);
                     }
                     var newRow = new Row{ Cells = cellList.ToArray() };
                     rowList.Add(newRow);

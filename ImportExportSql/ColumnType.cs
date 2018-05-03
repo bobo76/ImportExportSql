@@ -5,8 +5,6 @@ namespace ImportExportSql
 {
     public class ColumnTypeBase
     {
-        public bool AllowNull { get; set; }
-
         public object ReadValue(SqlDataReader dr, int ix)
         {
             if (dr.IsDBNull(ix))
@@ -24,9 +22,9 @@ namespace ImportExportSql
         {
             throw new Exception("not implemented");
         }
-        public object ReadValue(string value)
+        public object ReadValue(string value, bool isNullable)
         {
-            if (string.IsNullOrEmpty(value) && AllowNull)
+            if (string.IsNullOrEmpty(value) && isNullable)
                 return DBNull.Value;
             return ReadValueObject(value);
         }
@@ -179,6 +177,28 @@ namespace ImportExportSql
         }
     }
 
+    public class ColumnTypeReal : ColumnTypeBase, IDataType
+    {
+        public string DataTypeName { get; } = "real";
+        public IDataType CreateInstance()
+        {
+            return new ColumnTypeReal();
+        }
+
+        public SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.Real);
+        }
+        internal override object ReadValueObject(SqlDataReader dr, int ix)
+        {
+            return dr.GetFloat(ix);
+        }
+        internal override object ReadValueObject(string value)
+        {
+            return float.Parse(value, System.Globalization.NumberStyles.AllowDecimalPoint);
+        }
+    }
+
     public class ColumnTypeMoney : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "money";
@@ -223,6 +243,37 @@ namespace ImportExportSql
             if (value == DBNull.Value || value == null)
                 return "";
             return ((DateTime)value).ToString("yyyy-MM-dd hh:mm:ss.FFFtt");
+        }
+        internal override object ReadValueObject(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return DBNull.Value;
+
+            return DateTime.Parse(value);
+        }
+    }
+    public class ColumnTypeSmallDateTime : ColumnTypeBase, IDataType
+    {
+        public string DataTypeName { get; } = "smalldatetime";
+        public IDataType CreateInstance()
+        {
+            return new ColumnTypeSmallDateTime();
+        }
+
+        internal override object ReadValueObject(SqlDataReader dr, int ix)
+        {
+            var dateTmp = dr.GetSqlDateTime(ix);
+            return (DateTime)dateTmp;
+        }
+        public SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.DateTime);
+        }
+        public override string ConvertToString(object value)
+        {
+            if (value == DBNull.Value || value == null)
+                return "";
+            return ((DateTime)value).ToString("yyyy-MM-dd hh:mm:ss");
         }
         internal override object ReadValueObject(string value)
         {
@@ -336,13 +387,13 @@ namespace ImportExportSql
 
     public class ColumnTypeVarbinary : ColumnTypeBase, IDataType
     {
-        public string DataTypeName { get; } = "varbinary";
-        public IDataType CreateInstance()
+        public virtual string DataTypeName { get; } = "varbinary";
+        public virtual IDataType CreateInstance()
         {
             return new ColumnTypeVarbinary();
         }
 
-        public SqlParameter CreateParemeter(string parameterName)
+        public virtual SqlParameter CreateParemeter(string parameterName)
         {
             return new SqlParameter(parameterName, System.Data.SqlDbType.VarBinary);
         }
@@ -365,6 +416,19 @@ namespace ImportExportSql
         }
     }
 
+    public class ColumnTypeImage : ColumnTypeVarbinary, IDataType
+    {
+        public override string DataTypeName { get; } = "image";
+        public override IDataType CreateInstance()
+        {
+            return new ColumnTypeImage();
+        }
+
+        public override SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.VarBinary);
+        }
+    }
     public class ColumnTypeHierarchyId : ColumnTypeBase, IDataType
     {
         public string DataTypeName { get; } = "hierarchyid";

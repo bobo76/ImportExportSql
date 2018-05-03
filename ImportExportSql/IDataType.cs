@@ -5,12 +5,11 @@ namespace ImportExportSql
     public interface IDataType
     {
         string DataTypeName { get; }
-        bool AllowNull { get; set; }
 
         IDataType CreateInstance();
         SqlParameter CreateParemeter(string parameterName);
         object ReadValue(SqlDataReader dr, int ix);
-        object ReadValue(string value);
+        object ReadValue(string value, bool allowNull);
         string ConvertToString(object value);
     }
 }
