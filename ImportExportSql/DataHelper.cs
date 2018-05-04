@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Configuration;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,6 +18,7 @@ namespace ImportExportSql
                 return false;
             return (int)rst == 1;
         }
+
         public static Table GetTableInfo(string tableName, string connectionString)
         {
             var cmd = new SqlCommand("SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_DEFAULT, CHARACTER_MAXIMUM_LENGTH " +
@@ -60,6 +63,7 @@ namespace ImportExportSql
 
             return newTable;
         }
+
         public static SqlCommand BuildCommand(Table tableInfo, List<Row> rowList)
         {
             if (rowList == null || rowList.Count == 0)
@@ -76,6 +80,7 @@ namespace ImportExportSql
 
             return cmd;
         }
+
         public static void UpdateTable(Table tableInfo, List<Row> rowList, SqlCommand cmd, string connectionString)
         {
             using (var con = new SqlConnection(connectionString))
@@ -100,6 +105,26 @@ namespace ImportExportSql
                 return cmd.ExecuteScalar();
             }
         }
+
+        public static bool TestConnection(string connectionString)
+        {
+            var timeout = ConfigurationManager.AppSettings["ConnectionTimeout"];
+            timeout = string.IsNullOrEmpty(timeout) ? "5" : timeout;
+
+            if (!connectionString.Contains("Timeout"))
+                connectionString += (connectionString.EndsWith(";") ? "" : ";") + $"Connection Timeout = {timeout};";
+            using (var con = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    con.Open();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
-
