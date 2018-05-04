@@ -41,7 +41,7 @@ namespace ImportExportSql
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            TxtConnection.Text = ConfigurationManager.ConnectionStrings["PatientDev"].ConnectionString;
+            TxtConnection.Text = ConfigurationManager.ConnectionStrings["Home"].ConnectionString;
         }
 
         private void CmdExport_Click(object sender, EventArgs e)

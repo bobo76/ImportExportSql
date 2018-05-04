@@ -12,7 +12,8 @@ namespace ImportExportSql
             //var rst = ExecuteNoQuery($"IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME='{tableName}')" +
             //    "SELECT 1 AS res ELSE SELECT 0 AS res", connectionString);
             var rst = ExecuteScalar($"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME='{tableName}'", connectionString);
-
+            if (rst == null)
+                return false;
             return (int)rst == 1;
         }
         public static Table GetTableInfo(string tableName, string connectionString)
