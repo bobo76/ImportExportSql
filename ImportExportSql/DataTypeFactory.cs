@@ -6,10 +6,13 @@ namespace ImportExportSql
     public static class DataTypeFactory
     {
         private static List<IDataType> DataTypeList = new List<IDataType>();
+
         static DataTypeFactory()
         {
             DataTypeList = new List<IDataType>();
         }
+
+        public static int GetCount() => DataTypeList.Count();
 
         public static void AddDataType(IDataType[] newdataType)
         {

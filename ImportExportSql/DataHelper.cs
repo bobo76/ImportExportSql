@@ -11,8 +11,6 @@ namespace ImportExportSql
     {
         public static bool VerifyIfTableExist(string tableName, string connectionString)
         {
-            //var rst = ExecuteNoQuery($"IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME='{tableName}')" +
-            //    "SELECT 1 AS res ELSE SELECT 0 AS res", connectionString);
             var rst = ExecuteScalar($"SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_NAME='{tableName}'", connectionString);
             if (rst == null)
                 return false;
@@ -103,6 +101,17 @@ namespace ImportExportSql
                 cmd.Connection = con;
                 con.Open();
                 return cmd.ExecuteScalar();
+            }
+        }
+
+        public static object ExecuteNonQuery(string query, string connectionString)
+        {
+            using (var cmd = new SqlCommand(query))
+            using (var con = new SqlConnection(connectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                return cmd.ExecuteNonQuery();
             }
         }
 
