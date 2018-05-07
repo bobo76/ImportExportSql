@@ -138,6 +138,7 @@ namespace TestNUnit
                 File.Delete(fileName);
             WriteDataToFile(rowList, fileName);
             Assert.AreEqual(CheckMD5(sourceFilePath), CheckMD5(fileName));
+            File.Delete(fileName);
         }
 
         private void WriteDataToFile(List<Row> rowList, string fileName)
