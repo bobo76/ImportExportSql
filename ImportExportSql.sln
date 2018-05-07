@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportExportSql", "ImportExportSql\ImportExportSql.csproj", "{490977ED-97A1-4236-90F4-43E12DC8EB37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{485F90EE-1C73-463E-9A6E-89EF76389029}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNUnit", "TestNUnit\TestNUnit.csproj", "{1D6DE5B6-7DCC-4368-8D03-3A4BB595D024}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{490977ED-97A1-4236-90F4-43E12DC8EB37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{490977ED-97A1-4236-90F4-43E12DC8EB37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{490977ED-97A1-4236-90F4-43E12DC8EB37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{485F90EE-1C73-463E-9A6E-89EF76389029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{485F90EE-1C73-463E-9A6E-89EF76389029}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{485F90EE-1C73-463E-9A6E-89EF76389029}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{485F90EE-1C73-463E-9A6E-89EF76389029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D6DE5B6-7DCC-4368-8D03-3A4BB595D024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D6DE5B6-7DCC-4368-8D03-3A4BB595D024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D6DE5B6-7DCC-4368-8D03-3A4BB595D024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D6DE5B6-7DCC-4368-8D03-3A4BB595D024}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
