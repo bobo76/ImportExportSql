@@ -44,6 +44,9 @@ namespace ImportExportSql
                 var cellList = new List<RowCell>();
                 while ((line = SR.ReadLine()) != null)
                 {
+                    if (string.IsNullOrEmpty(line))
+                        continue;
+
                     fieldsList = line.Split(';');
 
                     for (var i = 0; i < rowCellList.Count; i++)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Globalization;
 
 namespace ImportExportSql
 {
@@ -209,7 +210,7 @@ namespace ImportExportSql
         }
         internal override object ReadValueObject(string value)
         {
-            return float.Parse(value, System.Globalization.NumberStyles.AllowDecimalPoint);
+            return float.Parse(value, CultureInfo.InvariantCulture);
         }
     }
 
@@ -231,7 +232,7 @@ namespace ImportExportSql
         }
         internal override object ReadValueObject(string value)
         {
-            return decimal.Parse(value);
+            return decimal.Parse(value, CultureInfo.InvariantCulture);
         }
     }
 
@@ -396,7 +397,7 @@ namespace ImportExportSql
         }
         internal override object ReadValueObject(string value)
         {
-            return decimal.Parse(value);
+            return decimal.Parse(value, CultureInfo.InvariantCulture);
         }
     }
 
