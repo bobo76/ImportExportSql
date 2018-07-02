@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.TxtQuery = new System.Windows.Forms.TextBox();
             this.CmdExport = new System.Windows.Forms.Button();
@@ -67,20 +66,21 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtQuery.Location = new System.Drawing.Point(72, 40);
-            this.TxtQuery.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtQuery.Margin = new System.Windows.Forms.Padding(2);
             this.TxtQuery.Multiline = true;
             this.TxtQuery.Name = "TxtQuery";
             this.TxtQuery.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TxtQuery.Size = new System.Drawing.Size(515, 142);
             this.TxtQuery.TabIndex = 1;
-            this.TxtQuery.Text = resources.GetString("TxtQuery.Text");
+            this.TxtQuery.Text = "SELECT     [Document].*\r\nFROM         [Document]\r\nWHERE     (DomNo IN (130, 134))" +
+    "\r\n";
             this.TxtQuery.TextChanged += new System.EventHandler(this.TxtQuery_TextChanged);
             // 
             // CmdExport
             // 
             this.CmdExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CmdExport.Location = new System.Drawing.Point(72, 195);
-            this.CmdExport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CmdExport.Margin = new System.Windows.Forms.Padding(2);
             this.CmdExport.Name = "CmdExport";
             this.CmdExport.Size = new System.Drawing.Size(71, 25);
             this.CmdExport.TabIndex = 2;
@@ -91,11 +91,11 @@
             // TxtExportTableName
             // 
             this.TxtExportTableName.Location = new System.Drawing.Point(72, 12);
-            this.TxtExportTableName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtExportTableName.Margin = new System.Windows.Forms.Padding(2);
             this.TxtExportTableName.Name = "TxtExportTableName";
             this.TxtExportTableName.Size = new System.Drawing.Size(165, 20);
             this.TxtExportTableName.TabIndex = 6;
-            this.TxtExportTableName.Text = "NoteData";
+            this.TxtExportTableName.Text = "Document";
             // 
             // label3
             // 
@@ -110,7 +110,7 @@
             // CmdImport
             // 
             this.CmdImport.Location = new System.Drawing.Point(72, 69);
-            this.CmdImport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CmdImport.Margin = new System.Windows.Forms.Padding(2);
             this.CmdImport.Name = "CmdImport";
             this.CmdImport.Size = new System.Drawing.Size(71, 25);
             this.CmdImport.TabIndex = 7;
@@ -123,7 +123,7 @@
             this.TxtImportPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtImportPath.Location = new System.Drawing.Point(72, 8);
-            this.TxtImportPath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtImportPath.Margin = new System.Windows.Forms.Padding(2);
             this.TxtImportPath.Name = "TxtImportPath";
             this.TxtImportPath.Size = new System.Drawing.Size(483, 20);
             this.TxtImportPath.TabIndex = 9;
@@ -174,7 +174,7 @@
             this.TxtExportPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtExportPath.Location = new System.Drawing.Point(72, 222);
-            this.TxtExportPath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtExportPath.Margin = new System.Windows.Forms.Padding(2);
             this.TxtExportPath.Name = "TxtExportPath";
             this.TxtExportPath.Size = new System.Drawing.Size(515, 20);
             this.TxtExportPath.TabIndex = 11;
@@ -185,7 +185,7 @@
             this.TxtConnection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtConnection.Location = new System.Drawing.Point(84, 11);
-            this.TxtConnection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TxtConnection.Margin = new System.Windows.Forms.Padding(2);
             this.TxtConnection.Name = "TxtConnection";
             this.TxtConnection.Size = new System.Drawing.Size(528, 20);
             this.TxtConnection.TabIndex = 12;
@@ -222,7 +222,7 @@
             // 
             this.cmdGetImportPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdGetImportPath.Location = new System.Drawing.Point(559, 5);
-            this.cmdGetImportPath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmdGetImportPath.Margin = new System.Windows.Forms.Padding(2);
             this.cmdGetImportPath.Name = "cmdGetImportPath";
             this.cmdGetImportPath.Size = new System.Drawing.Size(28, 23);
             this.cmdGetImportPath.TabIndex = 12;
@@ -233,7 +233,7 @@
             // txtImportTableName
             // 
             this.txtImportTableName.Location = new System.Drawing.Point(72, 32);
-            this.txtImportTableName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtImportTableName.Margin = new System.Windows.Forms.Padding(2);
             this.txtImportTableName.Name = "txtImportTableName";
             this.txtImportTableName.Size = new System.Drawing.Size(165, 20);
             this.txtImportTableName.TabIndex = 11;
@@ -268,7 +268,7 @@
             this.Controls.Add(this.TxtConnection);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Import export to sql";
             this.Load += new System.EventHandler(this.Form1_Load);

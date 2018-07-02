@@ -57,6 +57,7 @@ namespace TestNUnit
                 new ColumnTypeInt(),
                 new ColumnTypeMoney(),
                 new ColumnTypeNChar(),
+                new ColumnTypeChar(),
                 new ColumnTypeNVarchar(),
                 new ColumnTypeReal(),
                 new ColumnTypeSmallint(),

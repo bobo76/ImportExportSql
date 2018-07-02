@@ -27,6 +27,7 @@ namespace ImportExportSql
                 new ColumnTypeInt(),
                 new ColumnTypeMoney(),
                 new ColumnTypeNChar(),
+                new ColumnTypeChar(),
                 new ColumnTypeNVarchar(),
                 new ColumnTypeReal(),
                 new ColumnTypeSmallint(),
@@ -99,8 +100,16 @@ namespace ImportExportSql
             pbTransfert.Value = 0;
 
             WorkerThread.RunWorkerAsync("export");
-            var rowList = SqlExport.ReadFromQuery(tableInfo, TxtQuery.Text, conString);
-            WriteDataToFile(rowList, TxtExportPath.Text + tableInfo.TableName + DateTime.Now.ToString("_yyyy-MM-dd_hh-mm") + ".txt");
+            try
+            {
+                var rowList = SqlExport.ReadFromQuery(tableInfo, TxtQuery.Text, conString);
+                WriteDataToFile(rowList, TxtExportPath.Text + tableInfo.TableName + DateTime.Now.ToString("_yyyy-MM-dd_hh-mm") + ".txt");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
         
         private void WriteDataToFile(List<Row> rowList, string fileName)

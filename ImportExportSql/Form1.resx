@@ -117,12 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TxtQuery.Text" xml:space="preserve">
-    <value>SELECT     TOP(1)   NoteData.PatNo, NoteData.ConNo, NoteData.EleNo, NoteData.Name, NoteData.DataType, NoteData.Code, NoteData.Value_Text, NoteData.Value_Binary, 
-                         NoteData.Value_Num, NoteData.Value_Date, NoteData.UserCode
-FROM            Note INNER JOIN
-                         NoteData ON Note.PatNo = NoteData.PatNo AND Note.ConNo = NoteData.ConNo AND Note.EleNo = NoteData.EleNo
-
-</value>
-  </data>
 </root>

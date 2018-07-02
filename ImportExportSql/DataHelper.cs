@@ -44,7 +44,7 @@ namespace ImportExportSql
                         if (newColumn.Type == null)
                         {
                             MessageBox.Show($"Can't find {dataTypeName} type", "Gather data information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return null;
+                            continue;
                         }
                         columnList.Add(newColumn);
                     }
