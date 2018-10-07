@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using ImportExportSql.ColumnType;
 
 namespace ImportExportSql
 {
@@ -31,7 +32,7 @@ namespace ImportExportSql
                 new ColumnTypeReal(),
                 new ColumnTypeSmallint(),
                 new ColumnTypeTime(),
-                new ColumnTypeTinyint(),
+                new ColumnTypeTinyInt(),
                 new ColumnTypeUniqueidentifier(),
                 new ColumnTypeVarbinary(),
                 new ColumnTypeImage(),

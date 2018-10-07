@@ -1,12 +1,13 @@
-﻿using System;
+﻿using ImportExportSql;
+using ImportExportSql.ColumnType;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using NUnit.Framework;
-using ImportExportSql;
 
 namespace TestNUnit
 {
@@ -61,7 +62,7 @@ namespace TestNUnit
                 new ColumnTypeReal(),
                 new ColumnTypeSmallint(),
                 new ColumnTypeTime(),
-                new ColumnTypeTinyint(),
+                new ColumnTypeTinyInt(),
                 new ColumnTypeUniqueidentifier(),
                 new ColumnTypeVarbinary(),
                 new ColumnTypeImage(),
@@ -92,7 +93,7 @@ namespace TestNUnit
                 new Tuple<string, string, Type>("fNCharNull", "fNCharNNull", typeof(ColumnTypeNChar)),
                 new Tuple<string, string, Type>("fBitNull", "fBitNNull", typeof(ColumnTypeBit)),
                 new Tuple<string, string, Type>("fSmallIntNull", "fSmallIntNNull", typeof(ColumnTypeSmallint)),
-                new Tuple<string, string, Type>("fTinyIntNull", "fTinyIntNNull", typeof(ColumnTypeTinyint)),
+                new Tuple<string, string, Type>("fTinyIntNull", "fTinyIntNNull", typeof(ColumnTypeTinyInt)),
                 new Tuple<string, string, Type>("fRealNull", "fRealNNull", typeof(ColumnTypeReal)),
                 new Tuple<string, string, Type>("fMoneyNull", "fMoneyNNull", typeof(ColumnTypeMoney)),
                 new Tuple<string, string, Type>("fSmallDateTimeNull", "fSmallDateTimeNNull", typeof(ColumnTypeSmallDateTime)),
