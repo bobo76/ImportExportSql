@@ -35,7 +35,7 @@ namespace ImportExportSql
             throw new Exception("not implemented");
         }
     }
-    
+
     public class ColumnTypeNVarchar : ColumnTypeBase, IDataType
     {
         public virtual string DataTypeName { get; } = "nvarchar";
@@ -489,6 +489,20 @@ namespace ImportExportSql
         {
             //TODO
             return value;
+        }
+    }
+
+    public class ColumnTypeTimestamp : ColumnTypeBase, IDataType
+    {
+        public string DataTypeName { get; } = "timestamp";
+        public IDataType CreateInstance()
+        {
+            return new ColumnTypeTimestamp();
+        }
+
+        public SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.VarBinary);
         }
     }
 }

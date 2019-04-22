@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
+using System.Data;
 
 namespace ImportExportSql
 {
@@ -61,7 +62,56 @@ namespace ImportExportSql
 
             return newTable;
         }
+        public static DataTable GetShema(string query, string connectionString)
+        {
+            var cmd = new SqlCommand(query);
+            using (var con = new SqlConnection(connectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                using (var dr = cmd.ExecuteReader())
+                {
+                    return dr.GetSchemaTable();
+                }
+            }
+        }
 
+        public static Table GetTableInfoFromQuery(string query, string connectionString)
+        {
+            var schema = GetShema(query, connectionString);
+            var newTable = new Table { TableName = schema.TableName };
+            var columnList = new List<Column>();
+
+            //DataRow row = schema.Rows[0];
+            //foreach (DataColumn column in schema.Columns)
+            //{
+            //    Console.WriteLine(String.Format("{0} = {1}",
+            //       column.ColumnName, row[column]));
+            //}
+            //foreach (DataRow row1 in schema.Rows)
+            //{
+            //    Console.WriteLine(String.Format("{0} = {1}, {2}", row1["ColumnName"].ToString(), row1["DataTypeName"].ToString(), row1["AllowDBNull"].ToString()));
+            //}
+
+            foreach (DataRow row1 in schema.Rows)
+            {
+                var newColumn = new Column
+                {
+                    Name = row1["ColumnName"].ToString(),
+                    IsNullable = row1["AllowDBNull"].ToString() == "True"
+                };
+                var dataTypeName = row1["DataTypeName"].ToString();
+                newColumn.Type = DataTypeFactory.GetDataType(dataTypeName);
+                if (newColumn.Type == null)
+                {
+                    MessageBox.Show($"Can't find {dataTypeName} type", "Gather data information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    continue;
+                }
+                columnList.Add(newColumn);
+            }
+            newTable.Columns = columnList.ToArray();
+            return newTable;
+        }
         public static SqlCommand BuildCommand(Table tableInfo, List<Row> rowList)
         {
             if (rowList == null || rowList.Count == 0)

@@ -42,6 +42,7 @@
             this.TxtConnection = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cmdTest = new System.Windows.Forms.Button();
             this.cmdGetImportPath = new System.Windows.Forms.Button();
             this.txtImportTableName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -70,16 +71,15 @@
             this.TxtQuery.Multiline = true;
             this.TxtQuery.Name = "TxtQuery";
             this.TxtQuery.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TxtQuery.Size = new System.Drawing.Size(515, 142);
+            this.TxtQuery.Size = new System.Drawing.Size(581, 252);
             this.TxtQuery.TabIndex = 1;
             this.TxtQuery.Text = "SELECT     [Document].*\r\nFROM         [Document]\r\nWHERE     (DomNo IN (130, 134))" +
     "\r\n";
-            this.TxtQuery.TextChanged += new System.EventHandler(this.TxtQuery_TextChanged);
             // 
             // CmdExport
             // 
             this.CmdExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CmdExport.Location = new System.Drawing.Point(72, 195);
+            this.CmdExport.Location = new System.Drawing.Point(72, 305);
             this.CmdExport.Margin = new System.Windows.Forms.Padding(2);
             this.CmdExport.Name = "CmdExport";
             this.CmdExport.Size = new System.Drawing.Size(71, 25);
@@ -95,7 +95,6 @@
             this.TxtExportTableName.Name = "TxtExportTableName";
             this.TxtExportTableName.Size = new System.Drawing.Size(165, 20);
             this.TxtExportTableName.TabIndex = 6;
-            this.TxtExportTableName.Text = "Document";
             // 
             // label3
             // 
@@ -125,7 +124,7 @@
             this.TxtImportPath.Location = new System.Drawing.Point(72, 8);
             this.TxtImportPath.Margin = new System.Windows.Forms.Padding(2);
             this.TxtImportPath.Name = "TxtImportPath";
-            this.TxtImportPath.Size = new System.Drawing.Size(483, 20);
+            this.TxtImportPath.Size = new System.Drawing.Size(549, 20);
             this.TxtImportPath.TabIndex = 9;
             this.TxtImportPath.Text = "c:\\test\\EmailAddress_2018-05-03_07-53.txt";
             this.TxtImportPath.TextChanged += new System.EventHandler(this.TxtImportPath_TextChanged);
@@ -155,14 +154,14 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(12, 81);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(600, 251);
+            this.panel1.Size = new System.Drawing.Size(666, 361);
             this.panel1.TabIndex = 10;
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 224);
+            this.label5.Location = new System.Drawing.Point(6, 334);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 13);
@@ -173,10 +172,10 @@
             // 
             this.TxtExportPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TxtExportPath.Location = new System.Drawing.Point(72, 222);
+            this.TxtExportPath.Location = new System.Drawing.Point(72, 332);
             this.TxtExportPath.Margin = new System.Windows.Forms.Padding(2);
             this.TxtExportPath.Name = "TxtExportPath";
-            this.TxtExportPath.Size = new System.Drawing.Size(515, 20);
+            this.TxtExportPath.Size = new System.Drawing.Size(581, 20);
             this.TxtExportPath.TabIndex = 11;
             this.TxtExportPath.Text = "c:\\test\\";
             // 
@@ -187,7 +186,7 @@
             this.TxtConnection.Location = new System.Drawing.Point(84, 11);
             this.TxtConnection.Margin = new System.Windows.Forms.Padding(2);
             this.TxtConnection.Name = "TxtConnection";
-            this.TxtConnection.Size = new System.Drawing.Size(528, 20);
+            this.TxtConnection.Size = new System.Drawing.Size(594, 20);
             this.TxtConnection.TabIndex = 12;
             this.TxtConnection.Text = "Server=DESKTOP-2D86E14\\SQLEXPRESS;Database=AdventureWorks2017;Trusted_Connection=" +
     "True;";
@@ -207,21 +206,33 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.cmdTest);
             this.panel2.Controls.Add(this.cmdGetImportPath);
             this.panel2.Controls.Add(this.txtImportTableName);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.CmdImport);
             this.panel2.Controls.Add(this.TxtImportPath);
-            this.panel2.Location = new System.Drawing.Point(12, 338);
+            this.panel2.Location = new System.Drawing.Point(12, 448);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(600, 119);
+            this.panel2.Size = new System.Drawing.Size(666, 119);
             this.panel2.TabIndex = 13;
+            // 
+            // cmdTest
+            // 
+            this.cmdTest.Location = new System.Drawing.Point(191, 69);
+            this.cmdTest.Margin = new System.Windows.Forms.Padding(2);
+            this.cmdTest.Name = "cmdTest";
+            this.cmdTest.Size = new System.Drawing.Size(71, 25);
+            this.cmdTest.TabIndex = 13;
+            this.cmdTest.Text = "clean df";
+            this.cmdTest.UseVisualStyleBackColor = true;
+            this.cmdTest.Click += new System.EventHandler(this.cmdTest_Click);
             // 
             // cmdGetImportPath
             // 
             this.cmdGetImportPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmdGetImportPath.Location = new System.Drawing.Point(559, 5);
+            this.cmdGetImportPath.Location = new System.Drawing.Point(625, 5);
             this.cmdGetImportPath.Margin = new System.Windows.Forms.Padding(2);
             this.cmdGetImportPath.Name = "cmdGetImportPath";
             this.cmdGetImportPath.Size = new System.Drawing.Size(28, 23);
@@ -255,14 +266,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pbTransfert.Location = new System.Drawing.Point(12, 36);
             this.pbTransfert.Name = "pbTransfert";
-            this.pbTransfert.Size = new System.Drawing.Size(600, 23);
+            this.pbTransfert.Size = new System.Drawing.Size(666, 23);
             this.pbTransfert.TabIndex = 14;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 469);
+            this.ClientSize = new System.Drawing.Size(690, 579);
             this.Controls.Add(this.pbTransfert);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.TxtConnection);
@@ -301,6 +312,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button cmdGetImportPath;
         private System.Windows.Forms.ProgressBar pbTransfert;
+        private System.Windows.Forms.Button cmdTest;
     }
 }
 

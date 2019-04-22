@@ -66,6 +66,8 @@
     <Compile Include="SqlExport.cs" />
     <Compile Include="SqlImport.cs" />
     <Compile Include="Table.cs" />
+    <Compile Include="testClassHelper.cs" />
+    <Compile Include="testFormula.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

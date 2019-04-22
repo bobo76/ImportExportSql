@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using System.Linq;
 
 namespace ImportExportSql
 {
@@ -6,27 +6,61 @@ namespace ImportExportSql
     {
         public RowCell[] Cells { get; set; }
 
-        public string SaveAsString(char cellSeparator = ';')
+        public string SaveAsString(string cellSeparator = ";")
         {
-            var sb = new StringBuilder();
-            for (var i = 0; i < Cells.Length; i++)
-            {
-                if (i > 0)
-                    sb.Append(cellSeparator);
-                sb.Append(Cells[i].ToString());
-            }
-            return sb.ToString();
+            return string.Join(cellSeparator, Cells.Select(t => t.ToString()).ToArray());
         }
-        public string TitleCells(char cellSeparator = ';')
+        public string TitleCells(string cellSeparator = ";")
         {
-            var sb = new StringBuilder();
-            for (var i = 0; i < Cells.Length; i++)
-            {
-                if (i > 0)
-                    sb.Append(cellSeparator);
-                sb.Append(Cells[i].CellColumn.Name);
-            }
-            return sb.ToString();
+            //:{t.CellColumn.Type.DataTypeName}
+            return string.Join(cellSeparator, Cells.Select(t => $"{t.CellColumn.Name}").ToArray());
         }
+        public string CellsType(string cellSeparator = ";")
+        {
+            return string.Join(cellSeparator, Cells.Select(t => $"{t.CellColumn.Name}:{MapTypeFromSql(t.CellColumn.Type.DataTypeName)}").ToArray());
+        }
+        public static string MapTypeFromSql(string value)
+        {
+            switch (value)
+            {
+                case "date":
+                case "smalldatetime":
+                case "datetime":
+                    return "System.DateTime";
+                case "datetimeoffset":
+                    return "System.DateTimeOffset";
+                case "smallint":
+                    return "System.Int16";
+                case "int":
+                    return "System.Int32";
+                case "bigint":
+                    return "System.Int64";
+                case "tinyint":
+                    return "System.Byte";
+                case "uniqueidentifier":
+                    return "System.Guid";
+                case "bit":
+                    return "System.Boolean";
+                case "float":
+                    return "System.Double";
+                case "real":
+                    return "System.Single";
+                case "money":
+                case "decimal":
+                    return "System.Decimal";
+                case "char":
+                case "nchar":
+                case "text":
+                case "ntext":
+                case "varchar":
+                case "nvarchar":
+                    return "System.String";
+                case "binary":
+                case "image":
+                case "varbinary":
+                    return "System.Byte[]";
+            }
+            return null;
+            }
     }
 }
