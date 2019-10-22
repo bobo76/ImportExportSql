@@ -49,26 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Column.cs" />
-    <Compile Include="ColumnType\ColumnType.cs" />
-    <Compile Include="ColumnType\ColumnTypeBase.cs" />
-    <Compile Include="ColumnType\ColumnTypeBit.cs" />
-    <Compile Include="ColumnType\ColumnTypeDate.cs" />
-    <Compile Include="ColumnType\ColumnTypeDateTime.cs" />
-    <Compile Include="ColumnType\ColumnTypeDecimal.cs" />
-    <Compile Include="ColumnType\ColumnTypeHierarchyId.cs" />
-    <Compile Include="ColumnType\ColumnTypeImage.cs" />
-    <Compile Include="ColumnType\ColumnTypeInt.cs" />
-    <Compile Include="ColumnType\ColumnTypeMoney.cs" />
-    <Compile Include="ColumnType\ColumnTypeNChar.cs" />
-    <Compile Include="ColumnType\ColumnTypeNVarchar.cs" />
-    <Compile Include="ColumnType\ColumnTypeReal.cs" />
-    <Compile Include="ColumnType\ColumnTypeSmallDateTime.cs" />
-    <Compile Include="ColumnType\ColumnTypeSmallint.cs" />
-    <Compile Include="ColumnType\ColumnTypeTime.cs" />
+    <Compile Include="ColumnType.cs" />
     <Compile Include="ColumnType\ColumnTypeTinyInt.cs" />
-    <Compile Include="ColumnType\ColumnTypeUniqueidentifier.cs" />
-    <Compile Include="ColumnType\ColumnTypeVarbinary.cs" />
-    <Compile Include="ColumnType\ColumnTypeXml.cs" />
     <Compile Include="DataHelper.cs" />
     <Compile Include="DataTypeFactory.cs" />
     <Compile Include="Form1.cs">

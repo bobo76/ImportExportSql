@@ -66,6 +66,7 @@ namespace TestNUnit
                 new ColumnTypeTinyInt(),
                 new ColumnTypeUniqueidentifier(),
                 new ColumnTypeVarbinary(),
+                new ColumnTypeBinary(),
                 new ColumnTypeImage(),
                 new ColumnTypeVarchar(),
             };

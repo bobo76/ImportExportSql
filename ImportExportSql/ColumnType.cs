@@ -68,6 +68,14 @@ namespace ImportExportSql
         }
     }
 
+    public class ColumnTypeText : ColumnTypeNVarchar
+    {
+        public override string DataTypeName { get; } = "text";
+        public override IDataType CreateInstance()
+        {
+            return new ColumnTypeText();
+        }
+    }
     public class ColumnTypeNChar : ColumnTypeBase, IDataType
     {
         public virtual string DataTypeName { get; } = "nchar";
@@ -145,6 +153,26 @@ namespace ImportExportSql
         internal override object ReadValueObject(string value)
         {
             return int.Parse(value);
+        }
+    }
+    public class ColumnTypeBigInt : ColumnTypeBase, IDataType
+    {
+        public string DataTypeName { get; } = "bigint";
+        public IDataType CreateInstance()
+        {
+            return new ColumnTypeBigInt();
+        }
+        public SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.BigInt);
+        }
+        internal override object ReadValueObject(SqlDataReader dr, int ix)
+        {
+            return dr.GetSqlInt64(ix);
+        }
+        internal override object ReadValueObject(string value)
+        {
+            return long.Parse(value);
         }
     }
 
@@ -412,6 +440,37 @@ namespace ImportExportSql
         public virtual SqlParameter CreateParemeter(string parameterName)
         {
             return new SqlParameter(parameterName, System.Data.SqlDbType.VarBinary);
+        }
+        internal override object ReadValueObject(SqlDataReader dr, int ix)
+        {
+            var len = dr.GetBytes(ix, 0, null, 0, 0);
+            byte[] buffer = new byte[len];
+            dr.GetBytes(ix, 0, buffer, 0, (int)len);
+            return buffer;
+        }
+        public override string ConvertToString(object value)
+        {
+            if (value == DBNull.Value)
+                return string.Empty;
+            return Convert.ToBase64String((byte[])value);
+        }
+        internal override object ReadValueObject(string value)
+        {
+            return Convert.FromBase64String(value);
+        }
+    }
+
+    public class ColumnTypeBinary : ColumnTypeBase, IDataType
+    {
+        public virtual string DataTypeName { get; } = "binary";
+        public virtual IDataType CreateInstance()
+        {
+            return new ColumnTypeBinary();
+        }
+
+        public virtual SqlParameter CreateParemeter(string parameterName)
+        {
+            return new SqlParameter(parameterName, System.Data.SqlDbType.Binary);
         }
         internal override object ReadValueObject(SqlDataReader dr, int ix)
         {

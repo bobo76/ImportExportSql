@@ -6,16 +6,16 @@ namespace ImportExportSql
     {
         public RowCell[] Cells { get; set; }
 
-        public string SaveAsString(string cellSeparator = ";")
+        public string SaveAsString(string cellSeparator = ",")
         {
             return string.Join(cellSeparator, Cells.Select(t => t.ToString()).ToArray());
         }
-        public string TitleCells(string cellSeparator = ";")
+        public string TitleCells(string cellSeparator = ",")
         {
             //:{t.CellColumn.Type.DataTypeName}
             return string.Join(cellSeparator, Cells.Select(t => $"{t.CellColumn.Name}").ToArray());
         }
-        public string CellsType(string cellSeparator = ";")
+        public string CellsType(string cellSeparator = ",")
         {
             return string.Join(cellSeparator, Cells.Select(t => $"{t.CellColumn.Name}:{MapTypeFromSql(t.CellColumn.Type.DataTypeName)}").ToArray());
         }

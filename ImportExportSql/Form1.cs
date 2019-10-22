@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using ImportExportSql.ColumnType;
 
 namespace ImportExportSql
 {
@@ -25,6 +26,7 @@ namespace ImportExportSql
                 new ColumnTypeDecimal(),
                 new ColumnTypeHierarchyId(),
                 new ColumnTypeInt(),
+                new ColumnTypeBigInt(),
                 new ColumnTypeMoney(),
                 new ColumnTypeNChar(),
                 new ColumnTypeChar(),
@@ -35,9 +37,12 @@ namespace ImportExportSql
                 new ColumnTypeTinyInt(),
                 new ColumnTypeUniqueidentifier(),
                 new ColumnTypeVarbinary(),
+                new ColumnTypeBinary(),
                 new ColumnTypeImage(),
                 new ColumnTypeVarchar(),
-                new ColumnTypeXml()
+                new ColumnTypeText(),
+                new ColumnTypeXml(),
+                new ColumnTypeTimestamp()
             };
             DataTypeFactory.AddDataType(dataList.ToArray());
 
@@ -76,7 +81,7 @@ namespace ImportExportSql
             {
             }
         }
-        
+
         private void CmdExport_Click(object sender, EventArgs e)
         {
             var conString = TxtConnection.Text;
@@ -85,33 +90,46 @@ namespace ImportExportSql
                 MessageBox.Show($"Cannot connect to {conString}", "Export Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            var tableName = TxtExportTableName.Text;
-            if (!DataHelper.VerifyIfTableExist(tableName, conString))
+            Table tableInfo ;
+            if (TxtExportTableName.Text.Length > 0)
             {
-                MessageBox.Show($"The table {tableName} doesn't exist in this database", "Validate table", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                var tableName = TxtExportTableName.Text;
+                if (!DataHelper.VerifyIfTableExist(tableName, conString))
+                {
+                    MessageBox.Show($"The table {tableName} doesn't exist in this database", "Validate table", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                tableInfo = DataHelper.GetTableInfo(tableName, conString);
+                if (tableInfo == null)
+                {
+                    MessageBox.Show($"Something went wrong with table : {tableName}", "Export Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
-            var tableInfo = DataHelper.GetTableInfo(tableName, conString);
-            if (tableInfo == null)
-            {
-                MessageBox.Show($"Something went wrong with table : {tableName}", "Export Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+            else {
+                tableInfo = DataHelper.GetTableInfoFromQuery(TxtQuery.Text, conString);
             }
+
             pbTransfert.Value = 0;
 
             WorkerThread.RunWorkerAsync("export");
             var rowList = SqlExport.ReadFromQuery(tableInfo, TxtQuery.Text, conString);
-            WriteDataToFile(rowList, TxtExportPath.Text + tableInfo.TableName + DateTime.Now.ToString("_yyyy-MM-dd_hh-mm") + ".txt");
+            WriteDataToFile(rowList, TxtExportPath.Text + tableInfo.TableName + DateTime.Now.ToString("_yyyy-MM-dd_hh-mm"));
         }
-        
+
         private void WriteDataToFile(List<Row> rowList, string fileName)
         {
-            if (rowList?.Count == 0)
+            if (rowList == null || rowList.Count == 0)
                 return;
-            using (StreamWriter FS = new StreamWriter(fileName, true))
+
+            using (StreamWriter FS = new StreamWriter(fileName + ".csv", true))
             {
                 FS.WriteLine(rowList[0].TitleCells());
                 rowList.ForEach(i => FS.WriteLine(i.SaveAsString()));
+            };
+            using (StreamWriter FS = new StreamWriter(fileName + "_datatype.csv", true))
+            {
+                FS.WriteLine(rowList[0].CellsType());
             };
         }
 
@@ -168,11 +186,6 @@ namespace ImportExportSql
 
             if (fileName.Contains("_"))
                 txtImportTableName.Text = fileName.Substring(0, fileName.IndexOf("_"));
-        }
-
-        private void TxtQuery_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

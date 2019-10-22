@@ -227,7 +227,7 @@
             this.cmdTest.TabIndex = 13;
             this.cmdTest.Text = "clean df";
             this.cmdTest.UseVisualStyleBackColor = true;
-            this.cmdTest.Click += new System.EventHandler(this.cmdTest_Click);
+            //this.cmdTest.Click += new System.EventHandler(this.cmdTest_Click);
             // 
             // cmdGetImportPath
             // 
